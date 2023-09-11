@@ -1,0 +1,112 @@
+---
+apiVersion: v1alpha1
+kind: AgentConfig
+metadata:
+  name: TBC
+rendezvousIP: TBC
+hosts:
+  - hostname: master-0.TBC
+    interfaces:
+      - name: TBC
+        macAddress: TBC
+    networkConfig:
+      interfaces:
+        - name: TBC
+          type: ethernet
+          state: up
+          mac-address: TBC
+          ipv4:
+            enabled: true
+            address:
+              - ip: TBC
+                prefix-length: TBC
+            dhcp: false
+      dns-resolver:
+        config:
+          server:
+            - TBC
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: TBC
+            next-hop-interface: TBC
+            table-id: 254
+  - hostname: master-1.TBC
+    interfaces:
+      - name: TBC
+        macAddress: TBC
+    networkConfig:
+      interfaces:
+        - name: TBC
+          type: ethernet
+          state: up
+          mac-address: TBC
+          ipv4:
+            enabled: true
+            address:
+              - ip: TBC
+                prefix-length: TBC
+            dhcp: false
+      dns-resolver:
+        config:
+          server:
+            - TBC
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: TBC
+            next-hop-interface: TBC
+            table-id: 254
+  - hostname: master-2.TBC
+    interfaces:
+      - name: TBC
+        macAddress: TBC
+    networkConfig:
+      interfaces:
+        - name: TBC
+          type: ethernet
+          state: up
+          mac-address: TBC
+          ipv4:
+            enabled: true
+            address:
+              - ip: TBC
+                prefix-length: TBC
+            dhcp: false
+      dns-resolver:
+        config:
+          server:
+            - TBC
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: TBC
+            next-hop-interface: TBC
+            table-id: 254
+  - hostname: worker-0.TBC
+    interfaces:
+      - name: TBC
+        macAddress: TBC
+    networkConfig:
+      interfaces:
+        - name: TBC
+          type: ethernet
+          state: up
+          mac-address: TBC
+          ipv4:
+            enabled: true
+            address:
+              - ip: TBC
+                prefix-length: TBC
+            dhcp: false
+      dns-resolver:
+        config:
+          server:
+            - TBC
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: TBC
+            next-hop-interface: TBC
+            table-id: 254
+...

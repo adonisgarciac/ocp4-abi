@@ -1,0 +1,28 @@
+apiVersion: v1
+baseDomain: TBC
+compute:
+- name: worker
+  replicas: 1
+controlPlane:
+  name: master
+  replicas: 3
+metadata:
+  name: TBC
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  machineNetwork:
+  - cidr: TBC
+  networkType: OVNKubernetes
+  serviceNetwork:
+  - 172.30.0.0/16
+platform:
+  vsphere:
+    apiVIPs:
+      - TBC
+    ingressVIPs:
+    - TBC
+pullSecret: '{"auths" TBC'
+sshKey: 'ssh-rsa TBC'
+...
