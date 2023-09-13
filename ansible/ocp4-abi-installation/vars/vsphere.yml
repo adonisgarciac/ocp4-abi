@@ -20,22 +20,22 @@ vsphere:
 vm_definition:
   - hostname: master-0.pm2pn.dynamic.opentlc.com
     disk_size: 120
-    ram: 16
+    ram: 16384
     cpu: 8
     nic_mac: 00:50:56:a2:af:bf
   - hostname: master-1.pm2pn.dynamic.opentlc.com
     disk_size: 120
-    ram: 16
+    ram: 16384
     cpu: 8
     nic_mac: 00:50:56:a2:b8:9e
   - hostname: master-2.pm2pn.dynamic.opentlc.com
     disk_size: 120
-    ram: 16
+    ram: 16384
     cpu: 8
     nic_mac: 00:50:56:a2:d2:82
   - hostname: worker-0.pm2pn.dynamic.opentlc.com
     disk_size: 120
-    ram: 16
+    ram: 16384
     cpu: 8
     nic_mac: 00:50:56:a2:b3:f7
 hosts_definition:
@@ -55,7 +55,7 @@ hosts_definition:
           ipv4:
             enabled: true
             address:
-              - ip: 192.168.20.201
+              - ip: 192.168.20.80
                 prefix-length: 24
             dhcp: false
       dns-resolver:

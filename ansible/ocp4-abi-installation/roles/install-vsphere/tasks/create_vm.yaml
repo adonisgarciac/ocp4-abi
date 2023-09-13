@@ -21,8 +21,8 @@
       value: 'TRUE'
     - key: stealclock.enable
       value: 'TRUE'
-    - key: sched.cpu.latencySensitivity
-      value: 'High'
+        #    - key: sched.cpu.latencySensitivity
+        #      value: 'High'
     disk:
     - size_gb: "{{ __vm.disk_size }}"
       type: thin

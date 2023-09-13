@@ -24,10 +24,9 @@ networking:
 platform:
   {{ platform }}:
     apiVIPs:
-      - 192.168.20.201
+      - {{ apiVIP }}
     ingressVIPs:
-    - 192.168.20.202
-
+    - {{ ingressVIP }}
 pullSecret: '{{ pull_secret_content }}'
 sshKey: '{{ ssh_key_content }}'
 

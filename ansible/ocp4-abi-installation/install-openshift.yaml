@@ -16,6 +16,5 @@
     - iso
 
   - role: install-vsphere
-    when: platform == "vsphere"
     tags:
     - vsphere
