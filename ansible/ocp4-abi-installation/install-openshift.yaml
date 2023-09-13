@@ -1,0 +1,21 @@
+---
+- name: Install OpenShift
+  hosts: localhost
+  connection: local
+  # Gather facts is required, otherwise this will fail.
+  gather_facts: yes
+  vars_files:
+    - vars/cluster.yml
+    - vars/vault.yml
+    - vars/vsphere.yml
+
+  roles:
+
+  - role: create-agent-iso
+    tags:
+    - iso
+
+  - role: install-vsphere
+    when: platform == "vsphere"
+    tags:
+    - vsphere

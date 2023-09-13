@@ -1,0 +1,12 @@
+---
+# tasks file for install-vsphere
+
+- name: Upload ISO to vSphere
+  import_tasks: upload-iso-vsphere.yaml
+  tags:
+  - upload-iso
+
+- name: Deploy SNO cluster in vSphere
+  import_tasks: create_vm.yaml
+  tags:
+  - deploy

@@ -1,0 +1,9 @@
+apiVersion: v1alpha1
+kind: AgentConfig
+metadata:
+  name: {{ cluster_name }}
+rendezvousIP: {{ rendezvousIP }}
+hosts:
+{% for item in hosts_definition %}
+  - {{ item | from_yaml | to_nice_yaml(indent=2) | indent(width=4, first=False) }}
+{% endfor %}

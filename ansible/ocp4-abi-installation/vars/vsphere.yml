@@ -1,0 +1,158 @@
+---
+vsphere:
+  hostname: portal.vc.opentlc.com
+  username: sandbox-pm2pn@vc.opentlc.com
+  password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          65633864643537656230383437653533656661313162326235633536333536356537323061303162
+          3563633965633235376539663335346561663463336535630a383833633464626335666562656661
+          61326430386632333264366366316534333235613265333763326163346539386265386161373232
+          3537356562626131610a356233323930386563656438646338316439626236326665366266646538
+          6338
+  datastore_name: "WorkloadDatastore"
+  datacenter_name: "SDDC-Datacenter"
+  datastore_iso_folder: "isos/agarciac"
+  vm_folder_name: sandbox-pm2pn
+  vm_folder: "/SDDC-Datacenter/vm/Workloads/sandbox-pm2pn"
+  cluster_name: "Cluster-1"
+  network_name:  segment-sandbox-pm2pn
+  hwversion: 14
+vm_definition:
+  - hostname: master-0.pm2pn.dynamic.opentlc.com
+    disk_size: 120
+    ram: 16
+    cpu: 8
+    nic_mac: 00:50:56:a2:af:bf
+  - hostname: master-1.pm2pn.dynamic.opentlc.com
+    disk_size: 120
+    ram: 16
+    cpu: 8
+    nic_mac: 00:50:56:a2:b8:9e
+  - hostname: master-2.pm2pn.dynamic.opentlc.com
+    disk_size: 120
+    ram: 16
+    cpu: 8
+    nic_mac: 00:50:56:a2:d2:82
+  - hostname: worker-0.pm2pn.dynamic.opentlc.com
+    disk_size: 120
+    ram: 16
+    cpu: 8
+    nic_mac: 00:50:56:a2:b3:f7
+hosts_definition:
+  - hostname: master-0.pm2pn.dynamic.opentlc.com
+    role: master
+    interfaces:
+      - name: ens32
+        macAddress: 00:50:56:a2:af:bf
+    rootDeviceHints:
+      deviceName: /dev/sda
+    networkConfig:
+      interfaces:
+        - name: ens32
+          type: ethernet
+          state: up
+          mac-address: 00:50:56:a2:af:bf
+          ipv4:
+            enabled: true
+            address:
+              - ip: 192.168.20.201
+                prefix-length: 24
+            dhcp: false
+      dns-resolver:
+        config:
+          server:
+            - 10.2.192.12
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 192.168.20.1
+            next-hop-interface: ens32
+            table-id: 254
+  - hostname: master-1.pm2pn.dynamic.opentlc.com
+    role: master
+    interfaces:
+      - name: ens32
+        macAddress: 00:50:56:a2:b8:9e
+    rootDeviceHints:
+      deviceName: /dev/sda
+    networkConfig:
+      interfaces:
+        - name: ens32
+          type: ethernet
+          state: up
+          mac-address: 00:50:56:a2:b8:9e
+          ipv4:
+            enabled: true
+            address:
+              - ip: 192.168.20.81
+                prefix-length: 24
+            dhcp: false
+      dns-resolver:
+        config:
+          server:
+            - 10.2.192.12
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 192.168.20.1
+            next-hop-interface: ens32
+            table-id: 254
+  - hostname: master-2.pm2pn.dynamic.opentlc.com
+    role: master
+    interfaces:
+      - name: ens32
+        macAddress: 00:50:56:a2:d2:82
+    rootDeviceHints:
+      deviceName: /dev/sda
+    networkConfig:
+      interfaces:
+        - name: ens32
+          type: ethernet
+          state: up
+          mac-address: 00:50:56:a2:d2:82
+          ipv4:
+            enabled: true
+            address:
+              - ip: 192.168.20.82
+                prefix-length: 24
+            dhcp: false
+      dns-resolver:
+        config:
+          server:
+            - 10.2.192.12
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 192.168.20.1
+            next-hop-interface: ens32
+            table-id: 254
+  - hostname: worker-0.pm2pn.dynamic.opentlc.com
+    role: worker
+    interfaces:
+      - name: ens32
+        macAddress: 00:50:56:a2:b3:f7
+    rootDeviceHints:
+      deviceName: /dev/sda
+    networkConfig:
+      interfaces:
+        - name: ens32
+          type: ethernet
+          state: up
+          mac-address: 00:50:56:a2:b3:f7
+          ipv4:
+            enabled: true
+            address:
+              - ip: 192.168.20.83
+                prefix-length: 24
+            dhcp: false
+      dns-resolver:
+        config:
+          server:
+            - 10.2.192.12
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 192.168.20.1
+            next-hop-interface: ens32
+            table-id: 254
+...

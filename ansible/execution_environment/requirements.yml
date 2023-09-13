@@ -1,0 +1,5 @@
+collections:
+  - name: hpe.ilo
+  - name: community.vmware
+  - name: community.general
+  - name: delinea.ss

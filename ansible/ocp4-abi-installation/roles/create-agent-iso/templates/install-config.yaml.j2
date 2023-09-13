@@ -1,0 +1,33 @@
+apiVersion: v1
+baseDomain: {{ basedomain }}
+metadata:
+  name: {{ cluster_name }}
+compute:
+- architecture: amd64
+  hyperthreading: Enabled
+  name: worker
+  replicas: {{ num_worker }}
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  replicas: {{ num_master }}
+networking:
+  clusterNetwork:
+  - cidr: {{ clusterNetwork }}
+    hostPrefix: {{ hostPrefix_clusterNetowrk }}
+  machineNetwork:
+  - cidr: {{ machineNetwork }}
+  networkType: {{ networkType }}
+  serviceNetwork:
+  - {{ serviceNetwork }}
+platform:
+  {{ platform }}:
+    apiVIPs:
+      - 192.168.20.201
+    ingressVIPs:
+    - 192.168.20.202
+
+pullSecret: '{{ pull_secret_content }}'
+sshKey: '{{ ssh_key_content }}'
+

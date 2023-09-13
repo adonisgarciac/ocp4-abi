@@ -1,0 +1,19 @@
+---
+ocp_install_dir: ./my_cluster_ansible
+ocp_major: 4
+ocp_minor: 12
+ocp_system_device: /dev/sda
+ocp_system_device_size_mb: 51200
+ocp_var_device_size_mb: 51200
+platform: vsphere
+basedomain: dynamic.opentlc.com
+cluster_name: pm2pn
+num_worker: 1
+num_master: 3
+clusterNetwork: 10.128.0.0/14
+hostPrefix_clusterNetowrk: 23
+machineNetwork: 192.168.20.0/24
+networkType: OVNKubernetes
+serviceNetwork: 172.30.0.0/16
+rendezvousIP: 192.168.20.201
+...

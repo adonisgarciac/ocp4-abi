@@ -1,0 +1,19 @@
+variant: openshift
+version: {{ ocp_major }}.{{ ocp_minor }}.0
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: worker
+  name: 98-var-partition-worker
+storage:
+  disks:
+  - device: {{ ocp_system_device }}
+    partitions:
+    - label: var
+      start_mib: {{ ocp_system_device_size_mb }}
+      size_mib: {{ ocp_var_device_size_mb }}
+  filesystems:
+    - device: /dev/disk/by-partlabel/var
+      path: /var
+      format: xfs
+      mount_options: [defaults, prjquota]
+      with_mount_unit: true

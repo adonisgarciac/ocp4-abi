@@ -1,0 +1,30 @@
+---
+version: 3
+
+options:
+  package_manager_path: /usr/bin/microdnf
+
+images:
+  base_image:
+    name: registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel8:latest
+
+dependencies:
+  galaxy: requirements.yml
+  system: bindep.txt
+
+additional_build_files:
+    - src: ./ansible.cfg
+      dest: configs
+    - src: ./files/ocp_bin_4_12.tar.gz
+      dest: configs
+
+additional_build_steps:
+  prepend_base:
+    - COPY _build/configs/ansible.cfg /etc/ansible/ansible.cfg
+    - COPY _build/configs/ocp_bin_4_12.tar.gz /tmp/ocp_bin_4_12.tar.gz
+  append_final:
+    - RUN tar xvfz /tmp/ocp_bin_4_12.tar.gz -C /usr/local/bin/
+    - RUN rm -f /tmp/ocp_bin_4_12.tar.gz
+    - RUN microdnf install --enablerepo=rhocp-4.12-for-rhel-8-x86_64-rpms --releasever=8.8 openshift-clients
+    - RUN ansible-galaxy collection install redhat.openshift -p /usr/share/ansible/collections
+...

@@ -1,0 +1,16 @@
+---
+# tasks file for create-agent-iso
+- name: Set fact - agent ISO local folder
+  ansible.builtin.set_fact:
+    agent_iso_dir: "{{ ocp_install_dir }}"
+  when: (agent_iso_dir is undefined) or (agent_iso_dir == "")
+
+- name: Upload agent ISO to vSphere datastore
+  community.vmware.vsphere_copy:
+    hostname: "{{ vsphere.hostname }}"
+    username: "{{ vsphere.username }}"
+    password: "{{ vsphere.password }}"
+    datacenter: "{{ vsphere.datacenter_name }}"
+    datastore: "{{ vsphere.datastore_name }}"
+    src: "{{ agent_iso_dir }}/{{ agent_iso_name }}"
+    dest: "{{ vsphere.datastore_iso_folder}}/{{ agent_iso_name }}"

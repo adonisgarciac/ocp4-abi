@@ -1,0 +1,5 @@
+---
+# defaults file for create-agent-iso
+ocp_install_dir: ""
+agent_iso_dir: ""
+agent_iso_name: "agent.x86_64.iso"

@@ -1,0 +1,12 @@
+---
+# tasks file for create-agent-iso
+
+- name: Generate OpenShift manifests
+  import_tasks: generate-manifests.yaml
+  tags:
+  - generate-manifests
+
+- name: Create Agent ISO
+  import_tasks: create-iso.yaml
+  tags:
+  - create-iso

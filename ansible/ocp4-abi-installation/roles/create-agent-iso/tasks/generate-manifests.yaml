@@ -1,0 +1,45 @@
+---
+# tasks file for create-agent-iso
+- name: Set fact - OpenShift installation dirs
+  ansible.builtin.set_fact:
+    ocp_install_assets_dir: "{{ ocp_install_dir }}/ocp_install_{{ ansible_date_time.iso8601 }}"
+
+- name: Set fact - OpenShift installation dirs
+  ansible.builtin.set_fact:
+    ocp_install_user_manifests_dir: "{{ ocp_install_assets_dir }}/openshift"
+
+- name: Create OpenShift assets dir "{{ ocp_install_assets_dir }}"
+  ansible.builtin.file:
+    path: "{{ ocp_install_assets_dir }}"
+    state: directory
+
+- name: Create OCP user manifests dir "{{ ocp_install_user_manifests_dir }}"
+  ansible.builtin.file:
+    state: directory
+    path: "{{ ocp_install_user_manifests_dir }}"
+
+- name: Find all butane files
+  ansible.builtin.find:
+   paths: "{{ role_path }}/templates/butane"
+  register: butane_files
+
+- name: Template all butane files
+  ansible.builtin.template:
+    src: "{{ item.path }}"
+    dest: "/tmp/{{ item.path | basename | splitext | first }}"
+  loop: "{{ butane_files.files }}"
+
+- name: Generate Machine Config files from Butane files.
+  ansible.builtin.shell:
+    cmd: "/usr/local/bin/butane /tmp/{{ item.path | basename | splitext | first }} -o {{ ocp_install_user_manifests_dir }}/{{ item.path | basename | splitext | first | splitext | first }}.yaml"
+  loop: "{{ butane_files.files }}"
+
+- name: Generate install-config.yaml
+  ansible.builtin.template:
+    src: templates/install-config.yaml.j2
+    dest: "{{ ocp_install_assets_dir }}/install-config.yaml"
+
+- name: Generate agent-config.yaml
+  ansible.builtin.template:
+    src: templates/agent-config.yaml.j2
+    dest: "{{ ocp_install_assets_dir }}/agent-config.yaml"

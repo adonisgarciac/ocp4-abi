@@ -1,0 +1,49 @@
+---
+# https://github.com/RedHatOfficial/ocp4-vsphere-upi-automation/blob/master/roles/vsphere_vm/tasks/static-iso.yml#L89
+# https://github.com/sa-ne/openshift4-vmware-upi/blob/514ca0174c840c8ad664d96cefe3f8fbb582d7db/roles/vmware/tasks/vms-cluster-placement.yaml#L6
+# This is not idempotent! It fails with error:
+#   "op: reconfig"
+#   "msg: A specified parameter was not correct: spec.cpuAllocation"
+- name: Create a virtual machine
+  community.vmware.vmware_guest:
+    folder: "{{ vsphere.vm_folder }}"
+    hostname: "{{ vsphere.hostname }}"
+    username: "{{ vsphere.username }}"
+    password: "{{ vsphere.password }}"
+    cluster: "{{ vsphere.cluster_name }}"
+    datacenter: "{{ vsphere.datacenter_name }}"
+    name: "{{ __vm.hostname }}"
+    state: poweredon
+    guest_id: rhel8_64Guest
+    validate_certs: false
+    advanced_settings:
+    - key: disk.EnableUUID
+      value: 'TRUE'
+    - key: stealclock.enable
+      value: 'TRUE'
+    - key: sched.cpu.latencySensitivity
+      value: 'High'
+    disk:
+    - size_gb: "{{ __vm.disk_size }}"
+      type: thin
+      datastore: "{{ vsphere.datastore_name }}"
+    hardware:
+      memory_mb: "{{ __vm.ram }}"
+      memory_reservation_lock: true
+      hotadd_memory: false
+      num_cpus: "{{ __vm.cpu }}"
+      version: "{{ vsphere.hwversion }}"
+    cdrom:
+      - controller_number: 0
+        unit_number: 0
+        type: iso
+        iso_path: "[{{ vsphere.datastore_name }}] {{ vsphere.datastore_iso_folder }}/{{ agent_iso_name }}"
+        state: present
+    networks:
+    - name: "{{ vsphere.network_name }}"
+      type: static
+      start_connected: true
+      mac: "{{ __vm.nic_mac }}"
+  loop: "{{ vm_definition }}"
+  loop_control:
+    loop_var: __vm
