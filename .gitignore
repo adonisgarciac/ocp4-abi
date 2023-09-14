@@ -2,3 +2,4 @@
 install-openshift-artifact*
 ansible-navigator.log
 ocp_bin_4_12.tar.gz
+vault.yml

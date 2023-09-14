@@ -34,6 +34,17 @@
     cmd: "/usr/local/bin/butane /tmp/{{ item.path | basename | splitext | first }} -o {{ ocp_install_user_manifests_dir }}/{{ item.path | basename | splitext | first | splitext | first }}.yaml"
   loop: "{{ butane_files.files }}"
 
+- name: Find all manifests files
+  ansible.builtin.find:
+   paths: "{{ role_path }}/files/openshift_manifests/"
+  register: manifest_files
+
+- name: Move manifest files to installation path.
+  ansible.builtin.copy:
+    src: "{{ item.path }}"
+    dest: "{{ ocp_install_assets_dir }}/openshift"
+  loop: "{{ manifest_files.files }}"
+
 - name: Generate install-config.yaml
   ansible.builtin.template:
     src: templates/install-config.yaml.j2
