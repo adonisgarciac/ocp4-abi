@@ -47,3 +47,16 @@
   loop: "{{ vm_definition }}"
   loop_control:
     loop_var: __vm
+  async: 1000
+  poll: 0
+  register: vm_sleeper
+
+- name: Check on an async task
+  async_status:
+    jid: "{{ item.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 200
+  delay: 10
+  loop: "{{ vm_sleeper.results }}"
+...
