@@ -36,6 +36,7 @@
       hotadd_cpu: false
       hotremove_cpu: false
       version: "{{ vsphere.hwversion }}"
+      boot_firmware: "efi"
     cdrom:
       - controller_number: 0
         unit_number: 0
