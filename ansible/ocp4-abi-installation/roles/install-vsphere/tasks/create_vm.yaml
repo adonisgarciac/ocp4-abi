@@ -21,8 +21,8 @@
       value: 'TRUE'
     - key: stealclock.enable
       value: 'TRUE'
-        #    - key: sched.cpu.latencySensitivity
-        #      value: 'High'
+      #- key: sched.cpu.latencySensitivity
+      #value: 'High'
     disk:
     - size_gb: "{{ __vm.disk_size }}"
       type: thin
@@ -32,7 +32,11 @@
       memory_reservation_lock: true
       hotadd_memory: false
       num_cpus: "{{ __vm.cpu }}"
+      #cpu_reservation: 18400
+      hotadd_cpu: false
+      hotremove_cpu: false
       version: "{{ vsphere.hwversion }}"
+      boot_firmware: "efi"
     cdrom:
       - controller_number: 0
         unit_number: 0
