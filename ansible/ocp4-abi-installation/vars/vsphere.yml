@@ -23,7 +23,7 @@ vm_definition:
       - size_gb: 120
         type: thin
         datastore: WorkloadDatastore
-    ram: 16384
+    ram: 32768
     cpu: 8
     nic_mac: 00:50:56:a2:af:bf
   - hostname: master-1.pm2pn.dynamic.opentlc.com
@@ -31,7 +31,7 @@ vm_definition:
       - size_gb: 120
         type: thin
         datastore: WorkloadDatastore
-    ram: 16384
+    ram: 32768
     cpu: 8
     nic_mac: 00:50:56:a2:b8:9e
   - hostname: master-2.pm2pn.dynamic.opentlc.com
@@ -39,7 +39,7 @@ vm_definition:
       - size_gb: 120
         type: thin
         datastore: WorkloadDatastore
-    ram: 16384
+    ram: 32768
     cpu: 8
     nic_mac: 00:50:56:a2:d2:82
   - hostname: worker-0.pm2pn.dynamic.opentlc.com
@@ -50,7 +50,7 @@ vm_definition:
       - size_gb: 200
         type: thin
         datastore: WorkloadDatastore
-    ram: 16384
+    ram: 32768
     cpu: 8
     nic_mac: 00:50:56:a2:b3:f7
   - hostname: worker-1.pm2pn.dynamic.opentlc.com
@@ -61,7 +61,7 @@ vm_definition:
       - size_gb: 200
         type: thin
         datastore: WorkloadDatastore
-    ram: 16384
+    ram: 32768
     cpu: 8
     nic_mac: 00:50:56:a2:b3:f8
   - hostname: worker-2.pm2pn.dynamic.opentlc.com
@@ -72,7 +72,7 @@ vm_definition:
       - size_gb: 200
         type: thin
         datastore: WorkloadDatastore
-    ram: 16384
+    ram: 32768
     cpu: 8
     nic_mac: 00:50:56:a2:b3:f9
 hosts_definition:
