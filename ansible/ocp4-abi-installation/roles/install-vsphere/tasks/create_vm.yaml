@@ -21,8 +21,8 @@
       value: 'TRUE'
     - key: stealclock.enable
       value: 'TRUE'
-    #    - key: sched.cpu.latencySensitivity
-    #      value: 'High'
+      #- key: sched.cpu.latencySensitivity
+      #value: 'High'
     disk: "{{ __vm.disks }}"
     hardware:
       memory_mb: "{{ __vm.ram }}"
