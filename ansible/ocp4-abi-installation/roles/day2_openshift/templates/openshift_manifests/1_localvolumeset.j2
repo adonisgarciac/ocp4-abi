@@ -1,0 +1,24 @@
+---
+apiVersion: local.storage.openshift.io/v1alpha1
+kind: LocalVolumeSet
+metadata:
+  name: lso-volumeset
+  namespace: openshift-local-storage
+spec:
+  deviceInclusionSpec:
+    deviceTypes:
+    - disk
+    - part
+    minSize: 1Gi
+  nodeSelector:
+    nodeSelectorTerms:
+    - matchExpressions:
+      - key: kubernetes.io/hostname
+        operator: In
+        values:
+{% for item in odf_hosts %}
+          - {{ item }}
+{% endfor %}
+  storageClassName: {{ lso_storageClassName }}
+  volumeMode: Block
+...

@@ -18,40 +18,31 @@ vsphere:
   network_name:  segment-sandbox-pm2pn
   hwversion: 14
 vm_definition:
-  - hostname: master-0.ocp4.abi.com
+  - hostname: master-0.pm2pn.dynamic.opentlc.com
     disks:
       - size_gb: 120
-        type: thin
-        datastore: WorkloadDatastore
-      - size_gb: 200
         type: thin
         datastore: WorkloadDatastore
     ram: 16384
     cpu: 8
     nic_mac: 00:50:56:a2:af:bf
-  - hostname: master-1.ocp4.abi.com
+  - hostname: master-1.pm2pn.dynamic.opentlc.com
     disks:
       - size_gb: 120
-        type: thin
-        datastore: WorkloadDatastore
-      - size_gb: 200
         type: thin
         datastore: WorkloadDatastore
     ram: 16384
     cpu: 8
     nic_mac: 00:50:56:a2:b8:9e
-  - hostname: master-2.ocp4.abi.com
+  - hostname: master-2.pm2pn.dynamic.opentlc.com
     disks:
       - size_gb: 120
-        type: thin
-        datastore: WorkloadDatastore
-      - size_gb: 200
         type: thin
         datastore: WorkloadDatastore
     ram: 16384
     cpu: 8
     nic_mac: 00:50:56:a2:d2:82
-  - hostname: worker-0.ocp4.abi.com
+  - hostname: worker-0.pm2pn.dynamic.opentlc.com
     disks:
       - size_gb: 120
         type: thin
@@ -62,8 +53,30 @@ vm_definition:
     ram: 16384
     cpu: 8
     nic_mac: 00:50:56:a2:b3:f7
+  - hostname: worker-1.pm2pn.dynamic.opentlc.com
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+      - size_gb: 200
+        type: thin
+        datastore: WorkloadDatastore
+    ram: 16384
+    cpu: 8
+    nic_mac: 00:50:56:a2:b3:f8
+  - hostname: worker-2.pm2pn.dynamic.opentlc.com
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+      - size_gb: 200
+        type: thin
+        datastore: WorkloadDatastore
+    ram: 16384
+    cpu: 8
+    nic_mac: 00:50:56:a2:b3:f9
 hosts_definition:
-  - hostname: master-0.ocp4.abi.com
+  - hostname: master-0.pm2pn.dynamic.opentlc.com
     role: master
     interfaces:
       - name: ens32
@@ -92,7 +105,7 @@ hosts_definition:
             next-hop-address: 192.168.20.1
             next-hop-interface: ens32
             table-id: 254
-  - hostname: master-1.ocp4.abi.com
+  - hostname: master-1.pm2pn.dynamic.opentlc.com
     role: master
     interfaces:
       - name: ens32
@@ -121,7 +134,7 @@ hosts_definition:
             next-hop-address: 192.168.20.1
             next-hop-interface: ens32
             table-id: 254
-  - hostname: master-2.ocp4.abi.com
+  - hostname: master-2.pm2pn.dynamic.opentlc.com
     role: master
     interfaces:
       - name: ens32
@@ -150,7 +163,7 @@ hosts_definition:
             next-hop-address: 192.168.20.1
             next-hop-interface: ens32
             table-id: 254
-  - hostname: worker-0.ocp4.abi.com
+  - hostname: worker-0.pm2pn.dynamic.opentlc.com
     role: worker
     interfaces:
       - name: ens32
@@ -167,6 +180,64 @@ hosts_definition:
             enabled: true
             address:
               - ip: 192.168.20.83
+                prefix-length: 24
+            dhcp: false
+      dns-resolver:
+        config:
+          server:
+            - 10.2.192.12
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 192.168.20.1
+            next-hop-interface: ens32
+            table-id: 254
+  - hostname: worker-1.pm2pn.dynamic.opentlc.com
+    role: worker
+    interfaces:
+      - name: ens32
+        macAddress: 00:50:56:a2:b3:f8
+    rootDeviceHints:
+      deviceName: /dev/sda
+    networkConfig:
+      interfaces:
+        - name: ens32
+          type: ethernet
+          state: up
+          mac-address: 00:50:56:a2:b3:f8
+          ipv4:
+            enabled: true
+            address:
+              - ip: 192.168.20.84
+                prefix-length: 24
+            dhcp: false
+      dns-resolver:
+        config:
+          server:
+            - 10.2.192.12
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 192.168.20.1
+            next-hop-interface: ens32
+            table-id: 254
+  - hostname: worker-2.pm2pn.dynamic.opentlc.com
+    role: worker
+    interfaces:
+      - name: ens32
+        macAddress: 00:50:56:a2:b3:f9
+    rootDeviceHints:
+      deviceName: /dev/sda
+    networkConfig:
+      interfaces:
+        - name: ens32
+          type: ethernet
+          state: up
+          mac-address: 00:50:56:a2:b3:f9
+          ipv4:
+            enabled: true
+            address:
+              - ip: 192.168.20.85
                 prefix-length: 24
             dhcp: false
       dns-resolver:
