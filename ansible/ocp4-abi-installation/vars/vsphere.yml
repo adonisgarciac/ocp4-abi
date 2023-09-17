@@ -18,28 +18,52 @@ vsphere:
   network_name:  segment-sandbox-pm2pn
   hwversion: 14
 vm_definition:
-  - hostname: master-0.ocp4.abi.com
-    disk_size: 120
+  - hostname: master-0.pm2pn.dynamic.opentlc.com
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+      - size_gb: 200
+        type: thin
+        datastore: WorkloadDatastore
     ram: 16384
     cpu: 8
     nic_mac: 00:50:56:a2:af:bf
-  - hostname: master-1.ocp4.abi.com
-    disk_size: 120
+  - hostname: master-1.pm2pn.dynamic.opentlc.com
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+      - size_gb: 200
+        type: thin
+        datastore: WorkloadDatastore
     ram: 16384
     cpu: 8
     nic_mac: 00:50:56:a2:b8:9e
-  - hostname: master-2.ocp4.abi.com
-    disk_size: 120
+  - hostname: master-2.pm2pn.dynamic.opentlc.com
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+      - size_gb: 200
+        type: thin
+        datastore: WorkloadDatastore
     ram: 16384
     cpu: 8
     nic_mac: 00:50:56:a2:d2:82
-  - hostname: worker-0.ocp4.abi.com
-    disk_size: 120
+  - hostname: worker-0.pm2pn.dynamic.opentlc.com
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+      - size_gb: 200
+        type: thin
+        datastore: WorkloadDatastore
     ram: 16384
     cpu: 8
     nic_mac: 00:50:56:a2:b3:f7
 hosts_definition:
-  - hostname: master-0.ocp4.abi.com
+  - hostname: master-0.pm2pn.dynamic.opentlc.com
     role: master
     interfaces:
       - name: ens32
@@ -61,14 +85,14 @@ hosts_definition:
       dns-resolver:
         config:
           server:
-            - 192.168.20.10
+            - 10.2.192.12
       routes:
         config:
           - destination: 0.0.0.0/0
             next-hop-address: 192.168.20.1
             next-hop-interface: ens32
             table-id: 254
-  - hostname: master-1.ocp4.abi.com
+  - hostname: master-1.pm2pn.dynamic.opentlc.com
     role: master
     interfaces:
       - name: ens32
@@ -90,14 +114,14 @@ hosts_definition:
       dns-resolver:
         config:
           server:
-            - 192.168.20.10
+            - 10.2.192.12
       routes:
         config:
           - destination: 0.0.0.0/0
             next-hop-address: 192.168.20.1
             next-hop-interface: ens32
             table-id: 254
-  - hostname: master-2.ocp4.abi.com
+  - hostname: master-2.pm2pn.dynamic.opentlc.com
     role: master
     interfaces:
       - name: ens32
@@ -119,14 +143,14 @@ hosts_definition:
       dns-resolver:
         config:
           server:
-            - 192.168.20.10
+            - 10.2.192.12
       routes:
         config:
           - destination: 0.0.0.0/0
             next-hop-address: 192.168.20.1
             next-hop-interface: ens32
             table-id: 254
-  - hostname: worker-0.ocp4.abi.com
+  - hostname: worker-0.pm2pn.dynamic.opentlc.com
     role: worker
     interfaces:
       - name: ens32
@@ -148,7 +172,7 @@ hosts_definition:
       dns-resolver:
         config:
           server:
-            - 192.168.20.10
+            - 10.2.192.12
       routes:
         config:
           - destination: 0.0.0.0/0
