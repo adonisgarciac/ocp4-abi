@@ -19,22 +19,46 @@ vsphere:
   hwversion: 14
 vm_definition:
   - hostname: master-0.ocp4.abi.com
-    disk_size: 120
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+      - size_gb: 200
+        type: thin
+        datastore: WorkloadDatastore
     ram: 16384
     cpu: 8
     nic_mac: 00:50:56:a2:af:bf
   - hostname: master-1.ocp4.abi.com
-    disk_size: 120
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+      - size_gb: 200
+        type: thin
+        datastore: WorkloadDatastore
     ram: 16384
     cpu: 8
     nic_mac: 00:50:56:a2:b8:9e
   - hostname: master-2.ocp4.abi.com
-    disk_size: 120
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+      - size_gb: 200
+        type: thin
+        datastore: WorkloadDatastore
     ram: 16384
     cpu: 8
     nic_mac: 00:50:56:a2:d2:82
   - hostname: worker-0.ocp4.abi.com
-    disk_size: 120
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+      - size_gb: 200
+        type: thin
+        datastore: WorkloadDatastore
     ram: 16384
     cpu: 8
     nic_mac: 00:50:56:a2:b3:f7
@@ -61,7 +85,7 @@ hosts_definition:
       dns-resolver:
         config:
           server:
-            - 192.168.20.10
+            - 10.2.192.12
       routes:
         config:
           - destination: 0.0.0.0/0
@@ -90,7 +114,7 @@ hosts_definition:
       dns-resolver:
         config:
           server:
-            - 192.168.20.10
+            - 10.2.192.12
       routes:
         config:
           - destination: 0.0.0.0/0
@@ -119,7 +143,7 @@ hosts_definition:
       dns-resolver:
         config:
           server:
-            - 192.168.20.10
+            - 10.2.192.12
       routes:
         config:
           - destination: 0.0.0.0/0
@@ -148,7 +172,7 @@ hosts_definition:
       dns-resolver:
         config:
           server:
-            - 192.168.20.10
+            - 10.2.192.12
       routes:
         config:
           - destination: 0.0.0.0/0

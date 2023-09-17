@@ -6,8 +6,8 @@ ocp_system_device: /dev/sda
 ocp_system_device_size_mb: 51200
 ocp_var_device_size_mb: 51200
 platform: vsphere
-apiVIP: 192.168.20.22
-ingressVIP: 192.168.20.23
+apiVIP: 192.168.20.201
+ingressVIP: 192.168.20.202
 basedomain: abi.com
 cluster_name: ocp4
 num_worker: 1
