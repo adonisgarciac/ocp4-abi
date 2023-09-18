@@ -4,9 +4,10 @@ version: 3
 options:
   package_manager_path: /usr/bin/microdnf
 
-images:
-  base_image:
-    name: registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel8:latest
+#Passing it as build arg, to parametrize it.
+#images:
+#  base_image:
+#    name: registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel8:latest
 
 dependencies:
   galaxy: requirements.yml
@@ -16,15 +17,16 @@ dependencies:
 additional_build_files:
     - src: ./ansible.cfg
       dest: configs
-    - src: ./files/ocp_bin_4_12.tar.gz
+    - src: ./files/ocp_binaries.tar.gz
       dest: configs
 
 additional_build_steps:
   prepend_base:
     - COPY _build/configs/ansible.cfg /etc/ansible/ansible.cfg
+      #TODO:Repo 4.12 hardoced... Parametrize this somehow ;(.
     - RUN $PKGMGR install -y --enablerepo=rhocp-4.12-for-rhel-8-x86_64-rpms openshift-clients
-    - COPY _build/configs/ocp_bin_4_12.tar.gz /tmp/ocp_bin_4_12.tar.gz
+    - COPY _build/configs/ocp_binaries.tar.gz /tmp/ocp_binaries.tar.gz
   append_final:
-    - RUN tar xvfz /tmp/ocp_bin_4_12.tar.gz -C /usr/local/bin/
-    - RUN rm -f /tmp/ocp_bin_4_12.tar.gz
+    - RUN tar xvfz /tmp/ocp_binaries.tar.gz -C /usr/local/bin/
+    - RUN rm -f /tmp/ocp_binaries.tar.gz
 ...
