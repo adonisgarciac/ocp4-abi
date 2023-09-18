@@ -1,0 +1,14 @@
+---
+- name: OpenShift day2 tasks
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - vars/day2.yml
+
+  roles:
+
+  - role: day2_openshift
+    tags:
+    - day2
+

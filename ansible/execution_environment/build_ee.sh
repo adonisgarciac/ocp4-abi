@@ -19,6 +19,8 @@ OCP_MINOR=12
 OCP_PATCH=32
 COREOS_INSTALLER_VERSION="0.17.0-1"
 BUTANE_VERSION="0.18.0-1"
+#Used for RPMs repos.
+RHEL_VERSION="8"
 
 # Constants, dont change!!!
 OCP_XY="${OCP_MAJOR}.${OCP_MINOR}"
@@ -81,11 +83,12 @@ download () {
 }
 
 build () {
-  sudo subscription-manager repos --enable=rhocp-4.12-for-rhel-8-x86_64-rpms
+  sudo subscription-manager repos --enable="rhocp-${OCP_MAJOR}.${OCP_MINOR}-for-rhel-${RHEL_VERSION}-x86_64-rpms"
   
   #Build it
   ansible-builder build -v 3 \
   	--squash all \
+	--build-arg EE_BASE_IMAGE="registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel${RHEL_VERSION}:latest" \
   	--prune-images \
   	--tag "${EE_IMAGE_NAME}:${OCP_XYZ}"
 }
@@ -105,7 +108,7 @@ help () {
    echo "-d   Download Openshift artifacts."
    echo "-b   Build EE."
    echo "-a   Download OpenShift artifacts and build EE."
-   echo
+   echo ""
 }
 
 #----------------------------------- MAIN--------------------------

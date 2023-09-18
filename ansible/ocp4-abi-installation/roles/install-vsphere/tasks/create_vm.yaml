@@ -23,10 +23,7 @@
       value: 'TRUE'
       #- key: sched.cpu.latencySensitivity
       #value: 'High'
-    disk:
-    - size_gb: "{{ __vm.disk_size }}"
-      type: thin
-      datastore: "{{ vsphere.datastore_name }}"
+    disk: "{{ __vm.disks }}"
     hardware:
       memory_mb: "{{ __vm.ram }}"
       memory_reservation_lock: true

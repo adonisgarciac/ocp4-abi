@@ -6,11 +6,11 @@ ocp_system_device: /dev/sda
 ocp_system_device_size_mb: 51200
 ocp_var_device_size_mb: 51200
 platform: vsphere
-apiVIP: 192.168.20.22
-ingressVIP: 192.168.20.23
-basedomain: abi.com
-cluster_name: ocp4
-num_worker: 1
+apiVIP: 192.168.20.201
+ingressVIP: 192.168.20.202
+basedomain: dynamic.opentlc.com
+cluster_name: pm2pn
+num_worker: 3
 num_master: 3
 clusterNetwork: 10.128.0.0/14
 hostPrefix_clusterNetowrk: 23

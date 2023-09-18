@@ -1,0 +1,26 @@
+---
+apiVersion: ocs.openshift.io/v1
+kind: StorageCluster
+metadata:
+  name: ocs-storagecluster
+  namespace: openshift-storage
+spec:
+  monDataDirHostPath: /var/lib/rook
+  encryption:
+    clusterWide: true
+    enable: true
+    kms: {}
+  storageDeviceSets:
+    - count: {{ lso_num_storageDevice_perHost }}
+      dataPVCTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: '1'
+          storageClassName: {{ lso_storageClassName }}
+          volumeMode: Block
+      name: ocs-deviceset-{{ lso_storageClassName }}
+      replica: {{ odf_replicaCount }}
+...
