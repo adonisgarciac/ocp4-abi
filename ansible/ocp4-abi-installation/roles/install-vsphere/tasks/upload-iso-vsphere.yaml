@@ -14,3 +14,4 @@
     datastore: "{{ vsphere.datastore_name }}"
     src: "{{ agent_iso_dir }}/{{ agent_iso_name }}"
     dest: "{{ vsphere.datastore_iso_folder}}/{{ agent_iso_name }}"
+...
