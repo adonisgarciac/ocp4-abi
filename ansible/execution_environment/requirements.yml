@@ -1,3 +1,4 @@
+---
 collections:
   - name: hpe.ilo
     version: 1.0.34
@@ -9,3 +10,4 @@ collections:
     version: 1.1.0
   - name: redhat.openshift
     version: 2.3.0
+...

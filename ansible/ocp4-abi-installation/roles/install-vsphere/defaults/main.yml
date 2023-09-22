@@ -2,3 +2,4 @@
 # defaults file for install-vsphere
 agent_iso_name: "agent.x86_64.iso"
 agent_iso_path: ""
+...

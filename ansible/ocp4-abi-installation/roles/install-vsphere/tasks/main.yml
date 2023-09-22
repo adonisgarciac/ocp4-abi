@@ -6,7 +6,8 @@
   tags:
   - upload-iso
 
-- name: Deploy SNO cluster in vSphere
-  import_tasks: create_vm.yaml
+- name: Deploy cluster in vSphere from ISO
+  import_tasks: boot_vm_fromiso.yaml
   tags:
   - deploy
+...

@@ -18,42 +18,28 @@ vsphere:
   network_name:  segment-sandbox-pm2pn
   hwversion: 14
 vm_definition:
-  - hostname: master-0.pm2pn.dynamic.opentlc.com
+  - hostname: master0.pm2pn.dynamic.opentlc.com
     disks:
       - size_gb: 120
         type: thin
         datastore: WorkloadDatastore
     ram: 32768
     cpu: 8
-    nic_mac: 00:50:56:a2:af:bf
-  - hostname: master-1.pm2pn.dynamic.opentlc.com
+  - hostname: master1.pm2pn.dynamic.opentlc.com
     disks:
       - size_gb: 120
         type: thin
         datastore: WorkloadDatastore
     ram: 32768
     cpu: 8
-    nic_mac: 00:50:56:a2:b8:9e
-  - hostname: master-2.pm2pn.dynamic.opentlc.com
+  - hostname: master2.pm2pn.dynamic.opentlc.com
     disks:
       - size_gb: 120
         type: thin
         datastore: WorkloadDatastore
     ram: 32768
     cpu: 8
-    nic_mac: 00:50:56:a2:d2:82
-  - hostname: worker-0.pm2pn.dynamic.opentlc.com
-    disks:
-      - size_gb: 120
-        type: thin
-        datastore: WorkloadDatastore
-      - size_gb: 200
-        type: thin
-        datastore: WorkloadDatastore
-    ram: 32768
-    cpu: 8
-    nic_mac: 00:50:56:a2:b3:f7
-  - hostname: worker-1.pm2pn.dynamic.opentlc.com
+  - hostname: worker0.pm2pn.dynamic.opentlc.com
     disks:
       - size_gb: 120
         type: thin
@@ -63,8 +49,7 @@ vm_definition:
         datastore: WorkloadDatastore
     ram: 32768
     cpu: 8
-    nic_mac: 00:50:56:a2:b3:f8
-  - hostname: worker-2.pm2pn.dynamic.opentlc.com
+  - hostname: worker1.pm2pn.dynamic.opentlc.com
     disks:
       - size_gb: 120
         type: thin
@@ -74,21 +59,30 @@ vm_definition:
         datastore: WorkloadDatastore
     ram: 32768
     cpu: 8
-    nic_mac: 00:50:56:a2:b3:f9
+  - hostname: worker2.pm2pn.dynamic.opentlc.com
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+      - size_gb: 200
+        type: thin
+        datastore: WorkloadDatastore
+    ram: 32768
+    cpu: 8
 hosts_definition:
-  - hostname: master-0.pm2pn.dynamic.opentlc.com
+  - hostname: master0.pm2pn.dynamic.opentlc.com
     role: master
     interfaces:
-      - name: ens32
-        macAddress: 00:50:56:a2:af:bf
+      - name: eth0
+        macAddress: "{{ master0_mac }}"
     rootDeviceHints:
       deviceName: /dev/sda
     networkConfig:
       interfaces:
-        - name: ens32
+        - name: eth0
           type: ethernet
           state: up
-          mac-address: 00:50:56:a2:af:bf
+          mac-address: "{{ master0_mac }}"
           ipv4:
             enabled: true
             address:
@@ -103,21 +97,21 @@ hosts_definition:
         config:
           - destination: 0.0.0.0/0
             next-hop-address: 192.168.20.1
-            next-hop-interface: ens32
+            next-hop-interface: eth0
             table-id: 254
-  - hostname: master-1.pm2pn.dynamic.opentlc.com
+  - hostname: master1.pm2pn.dynamic.opentlc.com
     role: master
     interfaces:
-      - name: ens32
-        macAddress: 00:50:56:a2:b8:9e
+      - name: eth0
+        macAddress: "{{ master1_mac }}"
     rootDeviceHints:
       deviceName: /dev/sda
     networkConfig:
       interfaces:
-        - name: ens32
+        - name: eth0
           type: ethernet
           state: up
-          mac-address: 00:50:56:a2:b8:9e
+          mac-address: "{{ master1_mac }}"
           ipv4:
             enabled: true
             address:
@@ -132,21 +126,21 @@ hosts_definition:
         config:
           - destination: 0.0.0.0/0
             next-hop-address: 192.168.20.1
-            next-hop-interface: ens32
+            next-hop-interface: eth0
             table-id: 254
-  - hostname: master-2.pm2pn.dynamic.opentlc.com
+  - hostname: master2.pm2pn.dynamic.opentlc.com
     role: master
     interfaces:
-      - name: ens32
-        macAddress: 00:50:56:a2:d2:82
+      - name: eth0
+        macAddress: "{{ master2_mac }}"
     rootDeviceHints:
       deviceName: /dev/sda
     networkConfig:
       interfaces:
-        - name: ens32
+        - name: eth0
           type: ethernet
           state: up
-          mac-address: 00:50:56:a2:d2:82
+          mac-address: "{{ master2_mac }}"
           ipv4:
             enabled: true
             address:
@@ -161,21 +155,21 @@ hosts_definition:
         config:
           - destination: 0.0.0.0/0
             next-hop-address: 192.168.20.1
-            next-hop-interface: ens32
+            next-hop-interface: eth0
             table-id: 254
-  - hostname: worker-0.pm2pn.dynamic.opentlc.com
+  - hostname: worker0.pm2pn.dynamic.opentlc.com
     role: worker
     interfaces:
-      - name: ens32
-        macAddress: 00:50:56:a2:b3:f7
+      - name: eth0
+        macAddress: "{{ worker0_mac }}"
     rootDeviceHints:
       deviceName: /dev/sda
     networkConfig:
       interfaces:
-        - name: ens32
+        - name: eth0
           type: ethernet
           state: up
-          mac-address: 00:50:56:a2:b3:f7
+          mac-address: "{{ worker0_mac }}"
           ipv4:
             enabled: true
             address:
@@ -190,21 +184,21 @@ hosts_definition:
         config:
           - destination: 0.0.0.0/0
             next-hop-address: 192.168.20.1
-            next-hop-interface: ens32
+            next-hop-interface: eth0
             table-id: 254
-  - hostname: worker-1.pm2pn.dynamic.opentlc.com
+  - hostname: worker1.pm2pn.dynamic.opentlc.com
     role: worker
     interfaces:
-      - name: ens32
-        macAddress: 00:50:56:a2:b3:f8
+      - name: eth0
+        macAddress: "{{ worker1_mac }}"
     rootDeviceHints:
       deviceName: /dev/sda
     networkConfig:
       interfaces:
-        - name: ens32
+        - name: eth0
           type: ethernet
           state: up
-          mac-address: 00:50:56:a2:b3:f8
+          mac-address: "{{ worker1_mac }}"
           ipv4:
             enabled: true
             address:
@@ -219,21 +213,21 @@ hosts_definition:
         config:
           - destination: 0.0.0.0/0
             next-hop-address: 192.168.20.1
-            next-hop-interface: ens32
+            next-hop-interface: eth0
             table-id: 254
-  - hostname: worker-2.pm2pn.dynamic.opentlc.com
+  - hostname: worker2.pm2pn.dynamic.opentlc.com
     role: worker
     interfaces:
-      - name: ens32
-        macAddress: 00:50:56:a2:b3:f9
+      - name: eth0
+        macAddress: "{{ worker2_mac }}"
     rootDeviceHints:
       deviceName: /dev/sda
     networkConfig:
       interfaces:
-        - name: ens32
+        - name: eth0
           type: ethernet
           state: up
-          mac-address: 00:50:56:a2:b3:f9
+          mac-address: "{{ worker2_mac }}"
           ipv4:
             enabled: true
             address:
@@ -248,6 +242,6 @@ hosts_definition:
         config:
           - destination: 0.0.0.0/0
             next-hop-address: 192.168.20.1
-            next-hop-interface: ens32
+            next-hop-interface: eth0
             table-id: 254
 ...

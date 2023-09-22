@@ -4,6 +4,17 @@
 # This is not idempotent! It fails with error:
 #   "op: reconfig"
 #   "msg: A specified parameter was not correct: spec.cpuAllocation"
+
+- name: Remove previous agent ISO to vSphere datastore
+  community.vmware.vsphere_file:
+    hostname: "{{ vsphere.hostname }}"
+    username: "{{ vsphere.username }}"
+    password: "{{ vsphere.password }}"
+    datacenter: "{{ vsphere.datacenter_name }}"
+    datastore: "{{ vsphere.datastore_name }}"
+    path: "{{ vsphere.datastore_iso_folder}}/{{ agent_iso_name }}"
+    state: absent
+
 - name: Create a virtual machine
   community.vmware.vmware_guest:
     folder: "{{ vsphere.vm_folder }}"
@@ -44,7 +55,6 @@
     - name: "{{ vsphere.network_name }}"
       type: static
       start_connected: true
-      mac: "{{ __vm.nic_mac }}"
   loop: "{{ vm_definition }}"
   loop_control:
     loop_var: __vm
@@ -52,12 +62,41 @@
   poll: 0
   register: vm_sleeper
 
-- name: Check on an async task
-  async_status:
+- name: Check on an async create vm task
+  ansible.builtin.async_status:
     jid: "{{ item.ansible_job_id }}"
-  register: job_result
-  until: job_result.finished
+  register: vm_creation_job_result
+  until: vm_creation_job_result.finished
   retries: 200
   delay: 10
   loop: "{{ vm_sleeper.results }}"
+
+- name: Set the state of a virtual machine to poweroff
+  community.vmware.vmware_guest_powerstate:
+    hostname: "{{ vsphere.hostname }}"
+    username: "{{ vsphere.username }}"
+    password: "{{ vsphere.password }}"
+    name: "{{ __vm.hostname }}"
+    state: powered-off
+    validate_certs: false
+  loop: "{{ vm_definition }}"
+  loop_control:
+    loop_var: __vm
+  async: 1000
+  poll: 0
+  register: vm_poweroff_sleeper
+
+- name: Check on an async poweroff task
+  ansible.builtin.async_status:
+    jid: "{{ item.ansible_job_id }}"
+  register: vm_poweroff_job_result
+  until: vm_poweroff_job_result.finished
+  retries: 200
+  delay: 10
+  loop: "{{ vm_poweroff_sleeper.results }}"
+
+- name: Set MAC addresses
+  ansible.builtin.set_fact:
+    "{{ item['instance']['hw_name'] | split('.') | first }}_mac": "{{ item['instance']['hw_eth0']['macaddress'] }}"
+  loop: "{{ vm_creation_job_result['results'] }}"
 ...

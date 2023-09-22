@@ -30,7 +30,7 @@
   loop: "{{ butane_files.files }}"
 
 - name: Generate Machine Config files from Butane files.
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: "/usr/local/bin/butane /tmp/{{ item.path | basename | splitext | first }} -o {{ ocp_install_user_manifests_dir }}/{{ item.path | basename | splitext | first | splitext | first }}.yaml"
   loop: "{{ butane_files.files }}"
 
@@ -54,3 +54,4 @@
   ansible.builtin.template:
     src: templates/agent-config.yaml.j2
     dest: "{{ ocp_install_assets_dir }}/agent-config.yaml"
+...

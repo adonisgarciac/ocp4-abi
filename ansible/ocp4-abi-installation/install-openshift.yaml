@@ -9,6 +9,13 @@
     - vars/vault.yml
     - vars/vsphere.yml
 
+  pre_tasks:
+
+    - name: Create VM to get MACs
+      ansible.builtin.include_role:
+        name: install-vsphere
+        tasks_from: create_vm
+
   roles:
 
   - role: create-agent-iso
@@ -18,3 +25,4 @@
   - role: install-vsphere
     tags:
     - vsphere
+...

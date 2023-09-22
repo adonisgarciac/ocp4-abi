@@ -1,0 +1,30 @@
+---
+# https://github.com/RedHatOfficial/ocp4-vsphere-upi-automation/blob/master/roles/vsphere_vm/tasks/static-iso.yml#L89
+# https://github.com/sa-ne/openshift4-vmware-upi/blob/514ca0174c840c8ad664d96cefe3f8fbb582d7db/roles/vmware/tasks/vms-cluster-placement.yaml#L6
+# This is not idempotent! It fails with error:
+#   "op: reconfig"
+#   "msg: A specified parameter was not correct: spec.cpuAllocation"
+- name: Boot VMs from ISO
+  community.vmware.vmware_guest_powerstate:
+    hostname: "{{ vsphere.hostname }}"
+    username: "{{ vsphere.username }}"
+    password: "{{ vsphere.password }}"
+    name: "{{ __vm.hostname }}"
+    state: powered-on
+    validate_certs: false
+  loop: "{{ vm_definition }}"
+  loop_control:
+    loop_var: __vm
+  async: 1000
+  poll: 0
+  register: vm_poweron_sleeper
+
+- name: Check on an async boot task
+  async_status:
+    jid: "{{ item.ansible_job_id }}"
+  register: vm_poweron_job_result
+  until: vm_poweron_job_result.finished
+  retries: 200
+  delay: 10
+  loop: "{{ vm_poweron_sleeper.results }}"
+...
