@@ -1,2 +1,3 @@
 ---
 # defaults file for postinstall_openshift
+ocp_encrypt_etcd: false

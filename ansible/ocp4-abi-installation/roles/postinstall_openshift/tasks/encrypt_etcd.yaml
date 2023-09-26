@@ -1,0 +1,28 @@
+---
+# https://docs.openshift.com/container-platform/4.12/security/encrypting-etcd.html
+- name: Patch API Server
+  redhat.openshift.k8s:
+    #state: patched
+    apply: yes
+    definition:
+      apiVersion: config.openshift.io/v1
+      kind: APIServer
+      metadata:
+        name: apiserver
+      spec:
+        encryption:
+          type: aescbc
+
+- name: Wait for OpenShift API server to be encrypted
+  redhat.openshift.k8s:
+    apply: yes
+
+- name: Wait for Kube API server to be encrypted
+  redhat.openshift.k8s:
+    apply: yes
+
+- name: Wait for OpenShift OAuth API server to be encrypted
+  redhat.openshift.k8s:
+    apply: yes
+...
+

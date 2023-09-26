@@ -7,4 +7,5 @@ lso_num_storageDevice_perHost: 1
 lso_storageClassName: lso-volumeset
 odf_replicaCount: 3
 installation_path: "./my_cluster_ansible"
+ocp_encrypt_etcd: true
 ...

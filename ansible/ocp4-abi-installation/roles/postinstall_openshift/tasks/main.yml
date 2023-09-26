@@ -1,4 +1,9 @@
 ---
+- name: Encrypt etcd
+  ansible.builtin.import_tasks:
+    file: encrypt_etcd.yaml
+  when: ocp_encrypt_etcd | bool == true
+
 # tasks file for day2_openshift
 - name: Find all manifest templates
   ansible.builtin.find:
