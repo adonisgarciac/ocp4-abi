@@ -1,0 +1,144 @@
+---
+common_host_networkconfig:
+  dns-resolver:
+    config:
+      server:
+        - 10.2.192.12
+  routes:
+    config:
+      - destination: 0.0.0.0/0
+        next-hop-address: 192.168.159.1
+        next-hop-interface: eth0
+        table-id: 254
+node_definition:
+  - hostname: master0.fj8fl.dynamic.opentlc.com
+    role: master
+    networkConfig:
+      interfaces:
+        - name: eth0
+          type: ethernet
+          state: up
+          mac-address: "{{ master0_mac | default('') }}"
+          ipv4:
+            enabled: true
+            address:
+              - ip: 192.168.159.80
+                prefix-length: 24
+            dhcp: false
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+    ram: 32768
+    cpu: 8
+  - hostname: master1.fj8fl.dynamic.opentlc.com
+    role: master
+    networkConfig:
+      interfaces:
+        - name: eth0
+          type: ethernet
+          state: up
+          mac-address: "{{ master1_mac | default('') }}"
+          ipv4:
+            enabled: true
+            address:
+              - ip: 192.168.159.81
+                prefix-length: 24
+            dhcp: false
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+    ram: 32768
+    cpu: 8
+  - hostname: master2.fj8fl.dynamic.opentlc.com
+    role: master
+    ip: 192.168.159.82
+    networkConfig:
+      interfaces:
+        - name: eth0
+          type: ethernet
+          state: up
+          mac-address: "{{ master2_mac | default('') }}"
+          ipv4:
+            enabled: true
+            address:
+              - ip: 192.168.159.82
+                prefix-length: 24
+            dhcp: false
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+    ram: 32768
+    cpu: 8
+  - hostname: worker0.fj8fl.dynamic.opentlc.com
+    role: worker
+    networkConfig:
+      interfaces:
+        - name: eth0
+          type: ethernet
+          state: up
+          mac-address: "{{ worker0_mac | default('') }}"
+          ipv4:
+            enabled: true
+            address:
+              - ip: 192.168.159.83
+                prefix-length: 24
+            dhcp: false
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+      - size_gb: 200
+        type: thin
+        datastore: WorkloadDatastore
+    ram: 32768
+    cpu: 8
+  - hostname: worker1.fj8fl.dynamic.opentlc.com
+    role: worker
+    networkConfig:
+      interfaces:
+        - name: eth0
+          type: ethernet
+          state: up
+          mac-address: "{{ worker1_mac | default('') }}"
+          ipv4:
+            enabled: true
+            address:
+              - ip: 192.168.159.84
+                prefix-length: 24
+            dhcp: false
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+      - size_gb: 200
+        type: thin
+        datastore: WorkloadDatastore
+    ram: 32768
+    cpu: 8
+  - hostname: worker2.fj8fl.dynamic.opentlc.com
+    role: worker
+    networkConfig:
+      interfaces:
+        - name: eth0
+          type: ethernet
+          state: up
+          mac-address: "{{ worker2_mac | default('') }}"
+          ipv4:
+            enabled: true
+            address:
+              - ip: 192.168.159.85
+                prefix-length: 24
+            dhcp: false
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+      - size_gb: 200
+        type: thin
+        datastore: WorkloadDatastore
+    ram: 32768
+    cpu: 8
+...

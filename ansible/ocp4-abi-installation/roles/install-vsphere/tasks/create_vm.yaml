@@ -4,6 +4,9 @@
 # This is not idempotent! It fails with error:
 #   "op: reconfig"
 #   "msg: A specified parameter was not correct: spec.cpuAllocation"
+- name: command
+  shell:
+    cmd: who;id;cat /etc/subuid; cat /etc/subgid
 
 - name: Remove previous agent ISO to vSphere datastore
   community.vmware.vsphere_file:
@@ -12,8 +15,10 @@
     password: "{{ vsphere.password }}"
     datacenter: "{{ vsphere.datacenter_name }}"
     datastore: "{{ vsphere.datastore_name }}"
-    path: "{{ vsphere.datastore_iso_folder}}/{{ agent_iso_name }}"
+    path: "{{ vsphere.datastore_iso_folder}}/{{ item }}"
     state: absent
+  loop: "{{ agent_iso_name if agent_iso_name is iterable and agent_iso_name is not string else lookup('ansible.builtin.vars', 'agent_iso_name', wantlist=True) }}"
+
 
 - name: Create a virtual machine
   community.vmware.vmware_guest:
@@ -23,7 +28,7 @@
     password: "{{ vsphere.password }}"
     cluster: "{{ vsphere.cluster_name }}"
     datacenter: "{{ vsphere.datacenter_name }}"
-    name: "{{ __vm.hostname }}"
+    name: "{{ __vm['hostname'] }}"
     state: poweredon
     guest_id: rhel8_64Guest
     validate_certs: false
@@ -32,15 +37,12 @@
       value: 'TRUE'
     - key: stealclock.enable
       value: 'TRUE'
-      #- key: sched.cpu.latencySensitivity
-      #value: 'High'
-    disk: "{{ __vm.disks }}"
+    disk: "{{ __vm['disks'] }}"
     hardware:
-      memory_mb: "{{ __vm.ram }}"
+      memory_mb: "{{ __vm['ram'] }}"
       memory_reservation_lock: true
       hotadd_memory: false
-      num_cpus: "{{ __vm.cpu }}"
-      #cpu_reservation: 18400
+      num_cpus: "{{ __vm['cpu'] }}"
       hotadd_cpu: false
       hotremove_cpu: false
       version: "{{ vsphere.hwversion }}"
@@ -55,7 +57,7 @@
     - name: "{{ vsphere.network_name }}"
       type: static
       start_connected: true
-  loop: "{{ vm_definition }}"
+  loop: "{{ node_definition }}"
   loop_control:
     loop_var: __vm
   async: 1000
@@ -76,10 +78,10 @@
     hostname: "{{ vsphere.hostname }}"
     username: "{{ vsphere.username }}"
     password: "{{ vsphere.password }}"
-    name: "{{ __vm.hostname }}"
+    name: "{{ __vm['hostname'] }}"
     state: powered-off
     validate_certs: false
-  loop: "{{ vm_definition }}"
+  loop: "{{ node_definition }}"
   loop_control:
     loop_var: __vm
   async: 1000

@@ -25,6 +25,8 @@ additional_build_steps:
       #TODO:Repo 4.12 hardoced... Parametrize this somehow ;(.
     - RUN $PKGMGR install -y --enablerepo=rhocp-4.12-for-rhel-8-x86_64-rpms openshift-clients python3-kubernetes
     - COPY _build/configs/ocp_binaries.tar.gz /tmp/ocp_binaries.tar.gz
+    - RUN echo root:100000:65536 >> /etc/subuid
+    - RUN echo root:100000:65536 >> /etc/subgid
   append_final:
     - RUN tar xvfz /tmp/ocp_binaries.tar.gz -C /usr/local/bin/
     - RUN rm -f /tmp/ocp_binaries.tar.gz

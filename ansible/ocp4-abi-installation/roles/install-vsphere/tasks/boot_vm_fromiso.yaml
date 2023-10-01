@@ -9,10 +9,10 @@
     hostname: "{{ vsphere.hostname }}"
     username: "{{ vsphere.username }}"
     password: "{{ vsphere.password }}"
-    name: "{{ __vm.hostname }}"
+    name: "{{ __vm['hostname'] }}"
     state: powered-on
     validate_certs: false
-  loop: "{{ vm_definition }}"
+  loop: "{{ node_definition }}"
   loop_control:
     loop_var: __vm
   async: 1000

@@ -5,7 +5,16 @@ metadata:
   name: {{ cluster_name }}
 rendezvousIP: {{ rendezvousIP }}
 hosts:
-{% for item in hosts_definition %}
-  - {{ item | from_yaml | to_nice_yaml(indent=2) | indent(width=4, first=False) }}
+{% for item in node_definition %}
+  - hostname: {{ item['hostname'] }}
+    role: {{ item['role'] }}
+    interfaces:
+      - name: eth0
+        macAddress: {{  item['networkConfig']['interfaces'][0]['mac-address'] }}
+    rootDeviceHints:
+      deviceName: {{ ocp_system_device }}
+    networkConfig:
+      {{ common_host_networkconfig | from_yaml | to_nice_yaml(indent=2) | indent(width=6, first=False) }}
+      {{ item['networkConfig'] | from_yaml | to_nice_yaml(indent=2) | indent(width=6, first=False) }}
 {% endfor %}
 ...

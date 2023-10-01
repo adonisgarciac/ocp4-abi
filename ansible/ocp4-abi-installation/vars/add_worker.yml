@@ -1,0 +1,18 @@
+---
+rhcos_image_url: https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.12/latest/rhcos-live.x86_64.iso
+eth_name: ens192
+connection_type: 802-3-ethernet
+dns_priority: 40
+node_dns: 10.2.192.12
+node_default_route: 192.168.159.1
+node_definition:
+  - hostname: worker3.fj8fl.dynamic.opentlc.com
+    ip: 192.168.159.86/24
+    mac-address: "{{ worker4_mac | default('') }}"
+    disks:
+      - size_gb: 120
+        type: thin
+        datastore: WorkloadDatastore
+    ram: 32768
+    cpu: 8
+...

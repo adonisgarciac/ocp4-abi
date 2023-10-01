@@ -1,0 +1,71 @@
+---
+# tasks file for create-worker-iso
+- name: Create new-workers root directory
+  ansible.builtin.file:
+    path: ./new-workers
+    state: directory
+
+- name: Download rhcos-live image
+  ansible.builtin.get_url:
+    url: "{{ rhcos_image_url}}"
+    dest: ./new-workers/rhcos-live.x86_64.iso
+
+- name: Create a directory for each new worker
+  ansible.builtin.file:
+    path: "./new-workers/{{ item['hostname'] | split('.') | first }}"
+    state: directory
+  loop: "{{ node_definition }}"
+
+- name: Create nmconnection for each new worker
+  vars:
+    node_ip: "{{ item['ip'] }}"
+    node_mac: "{{ item['mac-address'] }}"
+  ansible.builtin.template:
+    src: templates/nmconnection.j2
+    dest: "./new-workers/{{ item['hostname'] | split('.') | first }}/{{ eth_name }}.nmconnection"
+  loop: "{{ node_definition }}"
+
+- name: Create ignition file for each new worker
+  vars:
+    node_sortname: "{{ item['hostname'] | split('.') | first }}"
+  ansible.builtin.template:
+    src: templates/ign.j2
+    dest: "./new-workers/{{ node_sortname }}/{{ item['hostname'] }}.ign"
+  loop: "{{ node_definition }}"
+
+
+- name: Extract the CA cert
+  ansible.builtin.shell:
+    cmd: openssl s_client -connect "{{ apiVIP }}":22623 -showcerts < /dev/null  | openssl x509 -outform pem | tee ./new-workers/ca.pem
+
+- name: Create ignition file for each new worker
+  vars:
+    node_sortname: "{{ item['hostname'] | split('.') | first }}"
+  ansible.builtin.copy:
+    src: ./new-workers/rhcos-live.x86_64.iso
+    dest: "./new-workers/{{ node_sortname }}/rhcos-{{ node_sortname }}.iso"
+    remote_src: yes
+  loop: "{{ node_definition }}"
+
+- name: Build a custom ISO for each new worker
+  become: true
+  vars:
+    node_sortname: "{{ item['hostname'] | split('.') | first }}"
+  containers.podman.podman_container:
+    name: "generate_iso_{{ node_sortname}}"
+    image: quay.io/coreos/coreos-installer:release
+    rm: true
+    interactive: true
+    tty: true
+    volume: ./new-workers:/data:z
+    user: root
+    workdir: /data
+    command:
+      - iso customize
+      - "./new-workers/{{ node_sortname }}/rhcos-{{ node_sortname }}.iso"
+      - --network-keyfile "./{{ node_sortname }}/{{ eth_name }}.nmconnection"
+      - --ignition-ca ./new-workers/ca.pem
+      - --dest-ignition "./new-workers/{{ node_sortname }}/{{ item['hostname'] }}.ign"
+      - --dest-device "{{ ocp_system_device }}"
+  loop: "{{ node_definition }}"
+...

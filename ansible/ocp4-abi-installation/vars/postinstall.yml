@@ -1,8 +1,8 @@
 ---
 odf_hosts:
-  - worker-0.pm2pn.dynamic.opentlc.com
-  - worker-1.pm2pn.dynamic.opentlc.com
-  - worker-2.pm2pn.dynamic.opentlc.com
+  - worker-0.fj8fl.dynamic.opentlc.com
+  - worker-1.fj8fl.dynamic.opentlc.com
+  - worker-2.fj8fl.dynamic.opentlc.com
 lso_num_storageDevice_perHost: 1
 lso_storageClassName: lso-volumeset
 odf_replicaCount: 3

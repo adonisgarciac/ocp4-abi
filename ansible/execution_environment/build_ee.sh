@@ -76,7 +76,8 @@ download () {
   dl_openshift_install "${BASE_TARGZ_DIR}"
   dl_butane
   dl_coreos_installer
-  
+
+  rm ./files -rf; mkdir ./files
   sudo chmod +x ${BASE_BIN_DIR}/*
   sudo chown root:root ${BASE_BIN_DIR}/*
   tar cvfz "${FINAL_FILE}" -C "${BASE_BIN_DIR}/" .
@@ -84,7 +85,7 @@ download () {
 
 build () {
   sudo subscription-manager repos --enable="rhocp-${OCP_MAJOR}.${OCP_MINOR}-for-rhel-${RHEL_VERSION}-x86_64-rpms"
-  
+
   #Build it
   ansible-builder build -v 3 \
   	--squash all \
@@ -127,7 +128,7 @@ then
            build
            exit;;
         -d) # all
-           download 
+           download
            exit;;
         *) # incorrect option
            echo "Error: Invalid option"

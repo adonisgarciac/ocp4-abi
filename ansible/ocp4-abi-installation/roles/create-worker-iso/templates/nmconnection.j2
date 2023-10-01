@@ -1,0 +1,20 @@
+[connection]
+autoconnect=true
+id={{ eth_name }}
+interface-name={{ eth_name }}
+type={{ connection_type }}
+autoconnect-priority=1
+
+[ipv4]
+address0={{ node_ip }}
+dns={{ node_dns }}
+dns-priority={{ dns_priority }}
+method=manual
+route0=0.0.0.0/0,{{ node_default_route }},0
+route0_options=table=254
+
+[ipv6]
+method=disabled
+
+[ethernet]
+cloned-mac-address={{ node_mac }}

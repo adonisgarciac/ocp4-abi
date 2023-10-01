@@ -1,0 +1,38 @@
+---
+- name: Install OpenShift
+  hosts: localhost
+  connection: local
+  # Gather facts is required, otherwise this will fail.
+  gather_facts: yes
+  vars_files:
+    - vars/cluster.yml
+    - vars/vsphere.yml
+    - vars/add_worker.yml
+
+  tasks:
+
+    - name: Create init agent_iso_name list
+      vars:
+        worker_iso_name: "rhcos-{{ item['hostname'] | split('.') | first }}.iso"
+      ansible.builtin.set_fact:
+        agent_iso_name: "{{ agent_iso_name | default([]) + [worker_iso_name] }}"
+      loop: "{{ node_definition }}"
+
+    - name: Create VM to get MACs
+      ansible.builtin.include_role:
+        name: install-vsphere
+        tasks_from: create_vm
+
+    - name: Generate ISO for each new worker
+      ansible.builtin.include_role:
+        name: create-worker-iso
+
+    - name: Run install-vsphere for each new worker
+      vars:
+        node_sortname: "{{ item['hostname'] | split('.') | first }}"
+        agent_iso_dir: "./new-workers/{{ node_sortname }}"
+        agent_iso_name: "rhcos-{{ node_sortname }}.iso"
+      ansible.builtin.include_role:
+        name: install-vsphere
+      loop: "{{ node_definition }}"
+...

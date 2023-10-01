@@ -6,16 +6,16 @@ ocp_system_device: /dev/sda
 ocp_system_device_size_mb: 51200
 ocp_var_device_size_mb: 51200
 platform: vsphere
-apiVIP: 192.168.20.201
-ingressVIP: 192.168.20.202
+apiVIP: 192.168.159.201
+ingressVIP: 192.168.159.202
 basedomain: dynamic.opentlc.com
-cluster_name: pm2pn
+cluster_name: fj8fl
 num_worker: 3
 num_master: 3
 clusterNetwork: 10.128.0.0/14
 hostPrefix_clusterNetowrk: 23
-machineNetwork: 192.168.20.0/24
+machineNetwork: 192.168.159.0/24
 networkType: OVNKubernetes
 serviceNetwork: 172.30.0.0/16
-rendezvousIP: 192.168.20.80
+rendezvousIP: 192.168.159.80
 ...

@@ -8,6 +8,7 @@
     - vars/cluster.yml
     - vars/vault.yml
     - vars/vsphere.yml
+    - vars/installation_node_definition.yml
 
   pre_tasks:
 
