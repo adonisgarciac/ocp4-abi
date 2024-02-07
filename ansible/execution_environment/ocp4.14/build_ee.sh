@@ -13,9 +13,9 @@ set -euo pipefail
 
 #VARS
 # Dont include TAGS!!!! Only the name.
-EE_IMAGE_NAME="ee-ocp-vmware"
+EE_IMAGE_NAME="ee-ocp-install"
 OCP_MAJOR=4
-OCP_MINOR=14
+OCP_MINOR=12
 OCP_PATCH=32
 COREOS_INSTALLER_VERSION="0.17.0-1"
 BUTANE_VERSION="0.18.0-1"
@@ -37,6 +37,7 @@ mkdir "${BASE_TMPDIR}/tar"
 BASE_TARGZ_DIR="${BASE_TMPDIR}/tar"
 mkdir "${BASE_TMPDIR}/bin"
 BASE_BIN_DIR="${BASE_TMPDIR}/bin"
+mkdir -p ./files
 FINAL_FILE="./files/ocp_binaries.tar.gz"
 
 dl_oc () {
