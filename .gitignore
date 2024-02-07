@@ -4,9 +4,8 @@ install-openshift-artifact*
 ansible-navigator.log
 ocp_bin_4_12.tar.gz
 vault.yml
-ansible/execution_environment/**/context
+ansible/execution_environment/**/files/
+ansible/execution_environment/**/files/*
+ansible/execution_environment/**/context/
 ansible/execution_environment/**/context/*
-ansible/execution_environment/**/files
 ansible/execution_environment/**/ansible.cfg
-ansible/execution_environment/*/ansible.cfg
-ansible/execution_environment/ocp4.14/ansible.cfg
