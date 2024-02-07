@@ -22,8 +22,7 @@ additional_build_files:
 additional_build_steps:
   prepend_base:
     - COPY _build/configs/ansible.cfg /etc/ansible/ansible.cfg
-      #TODO:Repo 4.12 hardoced... Parametrize this somehow ;(.
-    - RUN $PKGMGR install -y --enablerepo=rhocp-4.12-for-rhel-9-x86_64-rpms openshift-clients python3-kubernetes
+    - RUN $PKGMGR install -y --enablerepo="rhocp-${OCP_XY}-for-rhel-${RHEL_VERSION}-x86_64-rpms" openshift-clients python3-kubernetes
     - COPY _build/configs/ocp_binaries.tar.gz /tmp/ocp_binaries.tar.gz
   append_final:
     - RUN tar xvfz /tmp/ocp_binaries.tar.gz -C /usr/local/bin/

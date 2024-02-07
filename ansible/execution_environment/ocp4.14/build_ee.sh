@@ -15,12 +15,12 @@ set -euo pipefail
 # Dont include TAGS!!!! Only the name.
 EE_IMAGE_NAME="ee-ocp-install"
 OCP_MAJOR=4
-OCP_MINOR=12
-OCP_PATCH=32
+OCP_MINOR=14
+OCP_PATCH=10
 COREOS_INSTALLER_VERSION="0.17.0-1"
 BUTANE_VERSION="0.18.0-1"
 #Used for RPMs repos.
-RHEL_VERSION="8"
+RHEL_VERSION="9"
 
 # Constants, dont change!!!
 OCP_XY="${OCP_MAJOR}.${OCP_MINOR}"
@@ -77,20 +77,22 @@ download () {
   dl_openshift_install "${BASE_TARGZ_DIR}"
   dl_butane
   dl_coreos_installer
-  
+
   sudo chmod +x ${BASE_BIN_DIR}/*
   sudo chown root:root ${BASE_BIN_DIR}/*
   tar cvfz "${FINAL_FILE}" -C "${BASE_BIN_DIR}/" .
 }
 
 build () {
-  sudo subscription-manager repos --enable="rhocp-${OCP_MAJOR}.${OCP_MINOR}-for-rhel-${RHEL_VERSION}-x86_64-rpms"
-  
+  #sudo subscription-manager repos --enable="rhocp-${OCP_MAJOR}.${OCP_MINOR}-for-rhel-${RHEL_VERSION}-x86_64-rpms"
+
   #Build it
   ansible-builder build -v 3 \
-  	--squash all \
 	--build-arg EE_BASE_IMAGE="registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel${RHEL_VERSION}:latest" \
-  	--prune-images \
+  	--build-arg "RHEL_VERSION=$RHEL_VERSION" \
+   --build-arg "OCP_XY=$OCP_XY" \
+   --prune-images \
+   --squash all \
   	--tag "${EE_IMAGE_NAME}:${OCP_XYZ}"
 }
 
@@ -128,7 +130,7 @@ then
            build
            exit;;
         -d) # all
-           download 
+           download
            exit;;
         *) # incorrect option
            echo "Error: Invalid option"
