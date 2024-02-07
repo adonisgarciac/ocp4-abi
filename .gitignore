@@ -1,3 +1,4 @@
+.history/
 .vault_password
 install-openshift-artifact*
 ansible-navigator.log
