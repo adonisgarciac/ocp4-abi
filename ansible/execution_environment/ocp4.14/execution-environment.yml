@@ -12,6 +12,7 @@ options:
 dependencies:
   galaxy: requirements.yml
   system: bindep.txt
+  python: requirements.txt
 
 additional_build_files:
     - src: ./ansible.cfg
