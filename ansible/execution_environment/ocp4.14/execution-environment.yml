@@ -36,7 +36,7 @@ additional_build_steps:
     - ARG RHEL_VERSION
     - LABEL acme.rhel.version=$RHEL_VERSION
     - ARG COREOS_INSTALLER_VERSION
-    - LABEL acme.cores-installer.version=$COREOS_INSTALLER_VERSION
+    - LABEL acme.coreos-installer.version=$COREOS_INSTALLER_VERSION
     - ARG BUTANE_VERSION
     - LABEL acme.butane.version=$BUTANE_VERSION
 ...
