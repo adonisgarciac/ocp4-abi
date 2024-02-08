@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-#date         :17/09/23
-#version      :0.1
+#date         :08/02/24
+#version      :0.2
 #authors      :jtudelag@redhat.com
 #description  :Script to build an Ansible Execution Environment to install OpenShift.
 #              Tailored to install OpenShift using ABI on vSphere and baremetal.
@@ -91,6 +91,9 @@ build () {
    --build-arg EE_BASE_IMAGE="registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel${RHEL_VERSION}:latest" \
    --build-arg "RHEL_VERSION=$RHEL_VERSION" \
    --build-arg "OCP_XY=$OCP_XY" \
+   --build-arg "OCP_XYZ=$OCP_XYZ" \
+   --build-arg "COREOS_INSTALLER_VERSION=$COREOS_INSTALLER_VERSION" \
+   --build-arg "BUTANE_VERSION=$BUTANE_VERSION" \
    --prune-images \
    --squash all \
    --tag "${EE_IMAGE_NAME}:${OCP_XYZ}"
