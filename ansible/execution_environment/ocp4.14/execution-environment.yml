@@ -1,0 +1,42 @@
+---
+version: 3
+
+options:
+  package_manager_path: /usr/bin/microdnf
+
+#Passing it as build arg, to parametrize it.
+#images:
+#  base_image:
+#    name: registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel8:latest
+
+dependencies:
+  galaxy: requirements.yml
+  system: bindep.txt
+  python: requirements.txt
+
+additional_build_files:
+    - src: ./ansible.cfg
+      dest: configs
+    - src: ./files/ocp_binaries.tar.gz
+      dest: configs
+
+additional_build_steps:
+  prepend_base:
+    - COPY _build/configs/ansible.cfg /etc/ansible/ansible.cfg
+    - ARG RHEL_VERSION
+    - ARG OCP_XY
+    - RUN $PKGMGR install -y --enablerepo="ansible-automation-platform-2.4-for-rhel-$RHEL_VERSION-x86_64-rpms" python3-kubernetes
+    - RUN $PKGMGR install -y --enablerepo="rhocp-$OCP_XY-for-rhel-$RHEL_VERSION-x86_64-rpms" openshift-clients
+    - COPY _build/configs/ocp_binaries.tar.gz /tmp/ocp_binaries.tar.gz
+  append_final:
+    - RUN tar xvfz /tmp/ocp_binaries.tar.gz -C /usr/local/bin/
+    - RUN rm -f /tmp/ocp_binaries.tar.gz
+    - ARG OCP_XYZ
+    - LABEL acme.openshift.version=$OCP_XYZ
+    - ARG RHEL_VERSION
+    - LABEL acme.rhel.version=$RHEL_VERSION
+    - ARG COREOS_INSTALLER_VERSION
+    - LABEL acme.coreos-installer.version=$COREOS_INSTALLER_VERSION
+    - ARG BUTANE_VERSION
+    - LABEL acme.butane.version=$BUTANE_VERSION
+...
